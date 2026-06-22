@@ -1,46 +1,62 @@
-  // Contadores
-        let menor18 = 0;
-        let maior65 = 0;
-        let entre18e64 = 0;
-        let feminino = 0;
-        let masculino = 0;
+let totalPessoas = 0;
 
-        function analisar() {
+let somaSalarioMasculino = 0;
+let qtdMasculino = 0;
 
-            // Repete 4 vezes
-            for(let i = 1; i <= 4; i++) {
+let mulheres1000a3000 = 0;
 
-                let nome = prompt("Digite o nome da pessoa " + i + ":");
-                let idade = parseInt(prompt("Digite a idade de " + nome + ":"));
-                let sexo = prompt("Digite o sexo (M ou F):");
+let homens2000 = 0;
+let mulheres2000 = 0;
 
-                // Verifica a idade
-                if(idade < 18) {
-                    menor18++;
-                }
-                else if(idade > 65) {
-                    maior65++;
-                }
-                else {
-                    entre18e64++;
-                }
+function adicionarPessoa() {
 
-                // Verifica o sexo
-                if(sexo.toUpperCase() == "F") {
-                    feminino++;
-                }
-                else if(sexo.toUpperCase() == "M") {
-                    masculino++;
-                }
-            }
+    let idade = Number(document.getElementById("idade").value);
+    let sexo = document.getElementById("sexo").value.toUpperCase();
+    let renda = Number(document.getElementById("renda").value);
 
-            // Mostra os resultados
-            alert(
-                "RESULTADOS\n\n" +
-                "Menores de 18 anos: " + menor18 + "\n" +
-                "Maiores de 65 anos: " + maior65 + "\n" +
-                "Entre 18 e 64 anos: " + entre18e64 + "\n" +
-                "Feminino: " + feminino + "\n" +
-                "Masculino: " + masculino
-            );
+    totalPessoas++;
+
+    if (sexo == "M") {
+
+        somaSalarioMasculino += renda;
+        qtdMasculino++;
+
+        if (renda >= 2000) {
+            homens2000++;
         }
+
+    } else if (sexo == "F") {
+
+        if (renda >= 1000 && renda <= 3000) {
+            mulheres1000a3000++;
+        }
+
+        if (renda >= 2000) {
+            mulheres2000++;
+        }
+    }
+
+    // Limpa os campos
+    document.getElementById("idade").value = "";
+    document.getElementById("sexo").value = "";
+    document.getElementById("renda").value = "";
+}
+
+function mostrarResultado() {
+
+    let mediaMasculina = 0;
+
+    if (qtdMasculino > 0) {
+        mediaMasculina = somaSalarioMasculino / qtdMasculino;
+    }
+
+    let percentualHomens = (homens2000 / totalPessoas) * 100;
+    let percentualMulheres = (mulheres2000 / totalPessoas) * 100;
+
+    document.getElementById("resultado").innerHTML =
+        "Total de pessoas: " + totalPessoas + "<br>" +
+        "Média salarial masculina: R$ " + mediaMasculina.toFixed(2) + "<br>" +
+        "Mulheres com renda entre R$ 1000 e R$ 3000: " + mulheres1000a3000 + "<br>" +
+        "Percentual de homens com renda ≥ R$ 2000: " + percentualHomens.toFixed(2) + "%<br>" +
+        "Percentual de mulheres com renda ≥ R$ 2000: " + percentualMulheres.toFixed(2) + "%";
+}
